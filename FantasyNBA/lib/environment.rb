@@ -1,4 +1,4 @@
-require "FantasyNBA/version"
+require_relative "./FantasyNBA/version"
 require "pry"
 require "httparty"
 

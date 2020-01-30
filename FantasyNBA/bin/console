@@ -13,4 +13,4 @@ require_relative "../lib/environment"
 require "irb"
 IRB.start(__FILE__)
 
-FantasyCLI.new.run 
+

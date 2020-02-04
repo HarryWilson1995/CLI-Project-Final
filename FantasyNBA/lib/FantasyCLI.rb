@@ -15,7 +15,7 @@ class FantasyNBA::FantasyCLI
     sleep 1
     puts "To learn about an NBA team - type 'team'."
     sleep 1
-    puts "To lean about a player's fantasy rankings - type 'fantasy ranking'."
+    puts "To learn about a player's fantasy rankings - type 'fantasy ranking'."
     sleep 1
     puts "To close the application - type 'exit' at any time."
     sleep 1
@@ -52,7 +52,6 @@ class FantasyNBA::FantasyCLI
  
   def player_selection 
     sleep 1
-    puts " "
     puts "Which NBA player would you like to learn more about?"
     @player_input = gets.chomp 
     if @player_input.downcase == "exit"
@@ -63,7 +62,7 @@ class FantasyNBA::FantasyCLI
     @player_generator = FantasyNBA::API.new.get_player(@player_input) 
       if @player_generator != nil && @player_generator["playerId"]
       @player = FantasyNBA::Player.new(@player_generator)
-      player_info_options 
+      player_selection_result
       else 
       puts "Please make sure you are typing your player's name correctly and that your player currently plays in the NBA."
       player_selection
@@ -74,7 +73,6 @@ class FantasyNBA::FantasyCLI
 
   def team_selection  
     sleep 1
-    puts " "
     puts "Which NBA team would you like to learn more about?"
     @team_input = gets.chomp 
     if @team_input.downcase == "exit"
@@ -85,7 +83,7 @@ class FantasyNBA::FantasyCLI
     @team_generator = FantasyNBA::API.new.get_team(@team_input) 
       if @team_generator != nil && @team_generator["code"]
       @team = FantasyNBA::Team.new(@team_generator)
-      team_info_options 
+      team_selection_result
       else 
       puts "Please make sure you are typing your teams's name correctly and that your team plays in the NBA."
       team_selection
@@ -96,7 +94,6 @@ class FantasyNBA::FantasyCLI
 
   def fantasy_selection 
     sleep 1
-    puts " "
     puts "Which NBA player's fantasy rankings would you like to learn more about?"
     @fantasy_input = gets.chomp 
     if @fantasy_input.downcase == "exit"
@@ -107,256 +104,143 @@ class FantasyNBA::FantasyCLI
     @fantasy_generator = FantasyNBA::API.new.get_ranking(@fantasy_input) 
       if @fantasy_generator != nil 
       @fantasy = FantasyNBA::PlayerRank.new(@fantasy_generator)
-      fantasy_info_options 
+      fantasy_selection_result
       else 
       puts "Please make sure you are typing your player's name correctly and that your player currently plays in the NBA."
-      player_selection
+      fantasy_selection
      end
     end 
     
   end 
 
-  def player_info_options 
+  def player_selection_result 
     puts " "
     puts "You have selected #{@player.name}. #{@player.name} currently plays #{@player.position} for #{@player.team}."
+    player_info_options
+  end 
+
+  def player_info_options 
     puts " "
     sleep 1 
     puts "To learn where #{@player.name} played his college basketball - type 'college'."
     sleep 1 
-    puts " "
     puts "To learn how tall #{@player.name} is - type 'height'."
     sleep 1 
-    puts " "
     puts "To learn how much #{@player.name} weighs - type 'weight'."
     sleep 1 
-    puts " "
     puts "You can still exit at any point by typing 'exit' or return to the main menu by typing 'main menu'."
     @player_details_input = gets.chomp 
     player_info_output 
   end 
 
-  def team_info_options 
+  def team_selection_result 
     puts " "
     puts "You have selected the #{@team.name}. The #{@team.name} play(s) in the #{@team.conference} conference."
+    team_info_options
+  end 
+
+  def team_info_options 
     puts " "
     sleep 1 
     puts "To learn the three digit code for the #{@team.name} - type 'code'."
     sleep 1 
-    puts " "
     puts "To learn which division the #{@team.name} play(s) in - type 'division'."
     sleep 1 
-    puts " "
     puts "You can still exit at any point by typing 'exit' or return to the main menu by typing 'main menu'."
     @team_details_input = gets.chomp 
     team_info_output
   end 
 
-  def fantasy_info_options 
+  def fantasy_selection_result 
     puts " "
     puts "You have selected #{@fantasy.name}. #{@fantasy.name} currently plays #{@fantasy.position} for #{@fantasy.team}."
+    fantasy_info_options
+  end 
+
+  def fantasy_info_options 
     puts " "
     sleep 1 
     puts "To learn where #{@fantasy.name} ranks for his position - type 'position'."
     sleep 1 
-    puts " "
     puts "To learn where #{@fantasy.name} ranks overall in fantasy basketball - type 'overall'."
     sleep 1 
-    puts " "
     puts "You can still exit at any point by typing 'exit' or return to the main menu by typing 'main menu'."
     @fantasy_details_input = gets.chomp 
     fantasy_info_output
   end 
 
   def player_info_output 
-    puts "yep working!"
+    if @player_details_input.downcase == "exit"
+      closing_message
+    elsif @player_details_input.downcase == "main menu"
+      menu 
+    elsif (@player_details_input.downcase == "college" && @player.school != "—") && (@player_details_input.downcase == "college" && @player.school != "No College")
+      puts " "
+      puts "#{@player.name} went to #{@player.school}."
+      player_info_options
+    elsif  (@player_details_input.downcase == "college" && @player.school == "—") || (@player_details_input.downcase == "college" && @player.school == "No College")
+      puts " "
+      puts "#{@player.name} did not play college basketball."
+      player_info_options
+    elsif @player_details_input.downcase == "height"
+      puts " "
+      puts "#{@player.name} is #{@player.height}."
+      player_info_options
+    elsif @player_details_input.downcase == "weight"
+      puts " "
+      puts "#{@player.name} weighs #{@player.weight}lbs."
+      player_info_options
+    else 
+      puts " "
+      puts "Please enter a valid input from the options given to you!"
+      player_selection_result
+    end 
   end 
 
   def team_info_output 
-    puts "yep working!"
+    if @team_details_input.downcase == "exit"
+      closing_message
+    elsif @team_details_input.downcase == "main menu"
+      menu 
+    elsif @team_details_input.downcase == "code"
+      puts " "
+      puts "The 3 digit team code for the #{@team.name} is #{@team.code}."
+      team_info_options
+    elsif @team_details_input.downcase == "division" 
+      puts " "
+      puts "The #{@team.name} play(s) in the #{@team.division} division."
+      team_info_options
+    else 
+      puts " "
+      puts "Please enter a valid input from the options given to you!"
+      team_selection_result
+    end
   end 
-  
+
   def fantasy_info_output 
-    puts "yep working!"
+    if @fantasy_details_input.downcase == "exit"
+      closing_message
+    elsif @fantasy_details_input.downcase == "main menu"
+      menu 
+    elsif @fantasy_details_input.downcase == "position"
+      puts " "
+      puts "#{@fantasy.name} ranks #{@fantasy.rankPos} amongst #{@fantasy.position}'s."
+      fantasy_info_options
+    elsif @fantasy_details_input.downcase == "overall"
+      puts " "
+      puts "#{@fantasy.name} ranks number #{@fantasy.rankOverall} overall in fantasy basketball."
+      fantasy_info_options
+    else 
+      puts " "
+      puts "Please enter a valid input from the options given to you!"
+      fantasy_selection_result
+    end
   end 
 
   def closing_message
     puts " "
     puts "Thank you for using every NBA Fantasy basketball player's dream app! See you again soon!"
     # sleep 1.5 
-    puts " "
   end 
-
-  
-
-
-  def refactoring_required
-   puts "Would you like to learn about a team, player or a player's fantasy ranking (team, player, fantasy ranking)?"
-
-   input = gets.chomp
-
-  #  Could maybe do a case here for input, player, random player, team, random team ... 
-
-   if input.downcase == "player"
-    puts "Which player would you like to learn about?"
-    desired_player = gets.chomp
-     
-    test = FantasyNBA::API.new.get_player(desired_player)
-
-    if test != nil && test["playerId"] 
-      player = FantasyNBA::Player.new(test)
-    else 
-      puts "Please make sure you are spelling your player's name correctly and that he definitely plays in the NBA, then try again!" #make a method out of this or personalize the message. Maybe a module. 
-      run 
-    end
-
-    puts "#{player.name} currently plays #{player.position} for #{player.team}."
-
-    def further_info
-
-      puts "Is there anything else you would like to know? Type 'school', 'height' or 'weight' to learn more about your player. Otherwise type 'exit' to close the application or type 'new search' to learn about another team or player."
-
-    end 
-
-    further_info
-
-    def closing_message 
-      puts "Thank you for using every NBA Fantasy basketball player's dream app! See you again soon!"
-    end
-
-    while input != "exit"  
-      
-      input = gets.chomp 
-    
-    if (input.downcase == "school" && player.school != "—") && (input.downcase =="school" && player.school != "No College")
-      puts "#{player.name} went to #{player.school}."
-      further_info
-    elsif (input.downcase == "school" && player.school == "—") || (input.downcase == "school" && player.school == "No College") 
-      puts "#{player.name} did not play college basketball."
-      further_info
-    # elsif input.downcase == "school" && player.school == "No College"
-    #   puts "#{player.name} did not play college basketball."
-    #   further_info
-    elsif input.downcase == "height"
-      puts "#{player.name} is #{player.height}."
-      further_info
-    elsif input.downcase == "weight" 
-      puts "#{player.name} weighs #{player.weight}lbs."
-      further_info
-    elsif input.downcase == "new search"
-      run
-    elsif input.downcase == "exit"
-      closing_message
-    else 
-      puts "Please enter a valid response as listed in the previous question."
-      further_info
-    end
-
-  end 
-  
-
-   elsif input.downcase == "team" 
-      puts "Which team would you like to learn about?"
-      desired_team = gets.chomp
-       
-      test = FantasyNBA::API.new.get_team(desired_team)
-  
-      if test != nil && test["code"] 
-        team = FantasyNBA::Team.new(test)
-      else 
-        puts "Please make sure you are entering a current NBA team and that you are spelling it correctly. Enter your team in the format 'Washington Wizards'" #make a method out of this or personalize the message. Maybe a module. 
-        run 
-      end
-  
-      puts "The #{team.name} play(s) in the #{team.conference} conference."
-
-      def further_info
-
-        puts "Is there anything else you would like to know? Type 'code' to learn about your team's 3 digit code or type 'division' to discover which division your team plays in. Otherwise type 'exit' to close the application or type 'new search' to learn about another team or player."
-  
-      end 
-
-      further_info 
-
-      def closing_message 
-        puts "Thank you for using every NBA Fantasy basketball player's dream app! See you again soon!"
-      end
-  
-      while input != "exit"  
-        
-      input = gets.chomp 
-      
-      if input.downcase == "code"
-        puts "The #{team.name}'s 3 digit team code is #{team.code}."
-        further_info
-      elsif input.downcase == "division"
-        puts "The #{team.name} play(s) in the #{team.division} division."
-        further_info
-      elsif input.downcase == "new search"
-        run
-      elsif input.downcase == "exit"
-        closing_message
-      else 
-        puts "Please enter a valid response as listed in the previous question."
-        further_info
-      end
-    end 
-
-  elsif input.downcase == "fantasy ranking"
-
-    puts "Which player would you like to learn about?"
-    desired_player_ranking_name = gets.chomp 
-
-    test = FantasyNBA::API.new.get_ranking(desired_player_ranking_name)
-
-    if test != nil 
-      player_ranking = FantasyNBA::PlayerRank.new(test)
-    else 
-      puts "Please make sure you are spelling your player's name correctly and that he definitely plays in the NBA then try again!"
-      run 
-    end
-
-    puts "#{player_ranking.name} currently plays #{player_ranking.position} for #{player_ranking.team}."
-
-    def rank_request 
-
-      puts "If you would like to learn your player's ranking for his position, enter 'position'. Enter 'overall' to get your player's overall fantasy ranking. Otherwise type 'exit' to close the application of type 'new search' to learn about another team, player, or someone'e fantasy ranking."
-
-    end 
-
-    rank_request
-
-    def closing_message 
-      puts "Thank you for using every NBA Fantasy basketball player's dream app! See you again soon!"
-    end
-
-    while input != "exit"
-    
-    input = gets.chomp
-
-    if input.downcase == "position"
-      puts "#{player_ranking.name} ranks #{player_ranking.rankPos} amongst #{player_ranking.position}'s."
-      rank_request
-    elsif input.downcase == "overall"
-      puts "#{player_ranking.name} ranks number #{player_ranking.rankOverall} overall in fantasy basketball."
-      rank_request
-    elsif input.downcase == "new search"
-      run 
-    elsif input.downcase == "exit"
-      closing_message
-    else 
-      puts "Please enter a valid response as listed in the previous question."
-      rank_request
-    end
-  end 
-
-   else 
-    puts "Please enter a valid response!"
-      run
-   end
-
-   #here I would like to do if player and then bio (already coded in API class), and then needed to look at other pages on API. If team, can look again at pages for that API.
-       
-     
-  end
 
 end

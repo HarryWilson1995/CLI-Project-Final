@@ -1,3 +1,9 @@
+An app which shows NBA players info. May venture out into team standings/schedule etc after initial build.
+
+https://github.com/learn-co-curriculum/cli-data-gem-assessment
+
+Need to provide this link in readme - https://www.fantasybasketballnerd.com/
+
 # FantasyNBA
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/FantasyNBA`. To experiment with that code, run `bin/console` for an interactive prompt.
@@ -33,7 +39,6 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/FantasyNBA.
-
 
 ## License
 

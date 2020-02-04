@@ -18,6 +18,13 @@ class FantasyNBA::API
     end 
   end
 
-
+  def get_ranking(name)
+    doc = HTTParty.get("https://www.fantasybasketballnerd.com/service/draft-rankings")
+    player_ranking = doc["FantasyBasketballNerd"]["Player"]
+   
+    player_ranking.detect do |nba_player|
+      nba_player["name"] == name 
+    end
+  end
 
 end

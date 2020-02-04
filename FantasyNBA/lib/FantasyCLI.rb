@@ -12,13 +12,13 @@ class FantasyNBA::FantasyCLI
   def menu 
     puts " "
     puts "To learn about an NBA player - type 'player'."
-    sleep 1.5 
+    sleep 1
     puts "To learn about an NBA team - type 'team'."
-    sleep 1.5 
+    sleep 1
     puts "To lean about a player's fantasy rankings - type 'fantasy ranking'."
-    sleep 1.5 
+    sleep 1
     puts "To close the application - type 'exit' at any time."
-    sleep 1.5 
+    sleep 1
     puts "You can return to this menu at any time by typing 'main menu'."
     first_options
   end 
@@ -63,7 +63,7 @@ class FantasyNBA::FantasyCLI
     @player_generator = FantasyNBA::API.new.get_player(@player_input) 
       if @player_generator != nil && @player_generator["playerId"]
       @player = FantasyNBA::Player.new(@player_generator)
-      player_info 
+      player_info_options 
       else 
       puts "Please make sure you are typing your player's name correctly and that your player currently plays in the NBA."
       player_selection
@@ -85,7 +85,7 @@ class FantasyNBA::FantasyCLI
     @team_generator = FantasyNBA::API.new.get_team(@team_input) 
       if @team_generator != nil && @team_generator["code"]
       @team = FantasyNBA::Team.new(@team_generator)
-      team_info 
+      team_info_options 
       else 
       puts "Please make sure you are typing your teams's name correctly and that your team plays in the NBA."
       team_selection
@@ -107,7 +107,7 @@ class FantasyNBA::FantasyCLI
     @fantasy_generator = FantasyNBA::API.new.get_ranking(@fantasy_input) 
       if @fantasy_generator != nil 
       @fantasy = FantasyNBA::PlayerRank.new(@fantasy_generator)
-      fantasy_info
+      fantasy_info_options 
       else 
       puts "Please make sure you are typing your player's name correctly and that your player currently plays in the NBA."
       player_selection
@@ -116,16 +116,67 @@ class FantasyNBA::FantasyCLI
     
   end 
 
-  def player_info 
-    @player 
+  def player_info_options 
+    puts " "
+    puts "You have selected #{@player.name}. #{@player.name} currently plays #{@player.position} for #{@player.team}."
+    puts " "
+    sleep 1 
+    puts "To learn where #{@player.name} played his college basketball - type 'college'."
+    sleep 1 
+    puts " "
+    puts "To learn how tall #{@player.name} is - type 'height'."
+    sleep 1 
+    puts " "
+    puts "To learn how much #{@player.name} weighs - type 'weight'."
+    sleep 1 
+    puts " "
+    puts "You can still exit at any point by typing 'exit' or return to the main menu by typing 'main menu'."
+    @player_details_input = gets.chomp 
+    player_info_output 
   end 
 
-  def team_info 
-    @team 
+  def team_info_options 
+    puts " "
+    puts "You have selected the #{@team.name}. The #{@team.name} play(s) in the #{@team.conference} conference."
+    puts " "
+    sleep 1 
+    puts "To learn the three digit code for the #{@team.name} - type 'code'."
+    sleep 1 
+    puts " "
+    puts "To learn which division the #{@team.name} play(s) in - type 'division'."
+    sleep 1 
+    puts " "
+    puts "You can still exit at any point by typing 'exit' or return to the main menu by typing 'main menu'."
+    @team_details_input = gets.chomp 
+    team_info_output
   end 
 
-  def fantasy_info 
-    @fantasy 
+  def fantasy_info_options 
+    puts " "
+    puts "You have selected #{@fantasy.name}. #{@fantasy.name} currently plays #{@fantasy.position} for #{@fantasy.team}."
+    puts " "
+    sleep 1 
+    puts "To learn where #{@fantasy.name} ranks for his position - type 'position'."
+    sleep 1 
+    puts " "
+    puts "To learn where #{@fantasy.name} ranks overall in fantasy basketball - type 'overall'."
+    sleep 1 
+    puts " "
+    puts "You can still exit at any point by typing 'exit' or return to the main menu by typing 'main menu'."
+    @fantasy_details_input = gets.chomp 
+    fantasy_info_output
+  end 
+
+  def player_info_output 
+    puts "yep working!"
+  end 
+
+  def team_info_output 
+    puts "yep working!"
+  end 
+  
+  def fantasy_info_output 
+    puts "yep working!"
   end 
 
   def closing_message

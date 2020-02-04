@@ -1,4 +1,4 @@
-class FantasyCLI 
+class FantasyNBA::FantasyCLI 
 
   def initialize
     puts "If this works, our bin file is all linked up nicely!"

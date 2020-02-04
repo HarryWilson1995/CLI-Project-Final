@@ -3,4 +3,4 @@
 require "bundler/setup"
 require_relative "../lib/environment"
 
-FantasyCLI.new.run
+FantasyNBA::FantasyCLI.new.run

@@ -1,10 +1,144 @@
 class FantasyNBA::FantasyCLI 
 
-  def initialize
-    puts "Welcome to every NBA Fantasy basketball player's dream app!" 
-  end
+  def run 
+    welcome 
+  end 
 
-  def run  
+  def welcome 
+    puts "Welcome to every NBA Fantasy basketball player's dream app!" 
+    menu 
+  end 
+
+  def menu 
+    puts " "
+    puts "To learn about an NBA player - type 'player'."
+    sleep 1.5 
+    puts "To learn about an NBA team - type 'team'."
+    sleep 1.5 
+    puts "To lean about a player's fantasy rankings - type 'fantasy ranking'."
+    sleep 1.5 
+    puts "To close the application - type 'exit' at any time."
+    sleep 1.5 
+    puts "You can return to this menu at any time by typing 'main menu'."
+    first_options
+  end 
+
+  def first_options 
+    @options_input = gets.chomp 
+
+    if @options_input.downcase == "player"
+      puts " "
+      puts "You have selected 'player'."
+      player_selection
+    elsif @options_input.downcase == "team"
+      puts " "
+      puts "You have selected 'team'."
+      team_selection  
+    elsif @options_input.downcase == "fantasy ranking"
+      puts " "
+      puts "You have selected 'fantasy rankings'."
+      fantasy_selection 
+    elsif @options_input.downcase == "exit"
+      closing_message
+      # return 
+    elsif @options_input.downcase == "main menu" 
+      menu 
+    else 
+      puts "Please enter a valid input from the options given to you!"
+      menu 
+    end
+  end 
+
+ 
+  def player_selection 
+    sleep 1
+    puts " "
+    puts "Which NBA player would you like to learn more about?"
+    @player_input = gets.chomp 
+    if @player_input.downcase == "exit"
+      closing_message
+    elsif @player_input.downcase == "main menu"
+      menu 
+    else 
+    @player_generator = FantasyNBA::API.new.get_player(@player_input) 
+      if @player_generator != nil && @player_generator["playerId"]
+      @player = FantasyNBA::Player.new(@player_generator)
+      player_info 
+      else 
+      puts "Please make sure you are typing your player's name correctly and that your player currently plays in the NBA."
+      player_selection
+     end
+    end 
+    
+  end 
+
+  def team_selection  
+    sleep 1
+    puts " "
+    puts "Which NBA team would you like to learn more about?"
+    @team_input = gets.chomp 
+    if @team_input.downcase == "exit"
+      closing_message
+    elsif @team_input.downcase == "main menu"
+      menu 
+    else 
+    @team_generator = FantasyNBA::API.new.get_team(@team_input) 
+      if @team_generator != nil && @team_generator["code"]
+      @team = FantasyNBA::Team.new(@team_generator)
+      team_info 
+      else 
+      puts "Please make sure you are typing your teams's name correctly and that your team plays in the NBA."
+      team_selection
+     end
+    end 
+    
+  end 
+
+  def fantasy_selection 
+    sleep 1
+    puts " "
+    puts "Which NBA player's fantasy rankings would you like to learn more about?"
+    @fantasy_input = gets.chomp 
+    if @fantasy_input.downcase == "exit"
+      closing_message
+    elsif @fantasy_input.downcase == "main menu"
+      menu 
+    else 
+    @fantasy_generator = FantasyNBA::API.new.get_ranking(@fantasy_input) 
+      if @fantasy_generator != nil 
+      @fantasy = FantasyNBA::PlayerRank.new(@fantasy_generator)
+      fantasy_info
+      else 
+      puts "Please make sure you are typing your player's name correctly and that your player currently plays in the NBA."
+      player_selection
+     end
+    end 
+    
+  end 
+
+  def player_info 
+    @player 
+  end 
+
+  def team_info 
+    @team 
+  end 
+
+  def fantasy_info 
+    @fantasy 
+  end 
+
+  def closing_message
+    puts " "
+    puts "Thank you for using every NBA Fantasy basketball player's dream app! See you again soon!"
+    # sleep 1.5 
+    puts " "
+  end 
+
+  
+
+
+  def refactoring_required
    puts "Would you like to learn about a team, player or a player's fantasy ranking (team, player, fantasy ranking)?"
 
    input = gets.chomp

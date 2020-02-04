@@ -9,4 +9,15 @@ class FantasyNBA::API
     end
   end 
 
+  def get_team(name)
+    doc = HTTParty.get("https://www.fantasybasketballnerd.com/service/teams")
+    teams = doc["FantasyBasketballNerd"]["Team"]
+
+    teams.detect do |nba_team| 
+      nba_team["name"] == name
+    end 
+  end
+
+
+
 end

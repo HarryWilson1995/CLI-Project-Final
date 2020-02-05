@@ -36,7 +36,7 @@ class FantasyNBA::FantasyCLI
       team_selection  
     elsif @options_input.downcase == "fantasy ranking"
       puts " "
-      puts "You have selected 'fantasy rankings'."
+      puts "You have selected 'fantasy ranking'."
       fantasy_selection 
     elsif @options_input.downcase == "exit"
       closing_message
@@ -224,11 +224,11 @@ class FantasyNBA::FantasyCLI
       menu 
     elsif @fantasy_details_input.downcase == "position"
       puts " "
-      puts "#{@fantasy.name} ranks #{@fantasy.rankPos} amongst #{@fantasy.position}'s."
+      puts "#{@fantasy.name} ranks number #{@fantasy.rankPos} amongst #{@fantasy.position}'s in the NBA."
       fantasy_info_options
     elsif @fantasy_details_input.downcase == "overall"
       puts " "
-      puts "#{@fantasy.name} ranks number #{@fantasy.rankOverall} overall in fantasy basketball."
+      puts "#{@fantasy.name} ranks number #{@fantasy.rankOverall} overall in NBA fantasy basketball."
       fantasy_info_options
     else 
       puts " "

@@ -58,8 +58,13 @@ class FantasyNBA::FantasyCLI
       closing_message
     elsif @player_input.downcase == "main menu"
       menu 
-    else 
-    @player_generator = FantasyNBA::API.new.get_player(@player_input) 
+    elsif FantasyNBA::Player.all.detect do |player|
+        if player.name == @player_input
+        @player = player 
+        player_selection_result
+        end
+      end
+    elsif @player_generator = FantasyNBA::API.new.get_player(@player_input) 
       if @player_generator != nil && @player_generator["playerId"]
       @player = FantasyNBA::Player.new(@player_generator)
       player_selection_result
@@ -67,7 +72,7 @@ class FantasyNBA::FantasyCLI
       puts "Please make sure you are typing your player's name correctly and that your player currently plays in the NBA."
       player_selection
      end
-    end 
+    end
     
   end 
 
@@ -79,8 +84,13 @@ class FantasyNBA::FantasyCLI
       closing_message
     elsif @team_input.downcase == "main menu"
       menu 
-    else 
-    @team_generator = FantasyNBA::API.new.get_team(@team_input) 
+    elsif FantasyNBA::Team.all.detect do |team|
+        if team.name == @team_input
+      @team = team
+      team_selection_result
+        end 
+      end
+    elsif @team_generator = FantasyNBA::API.new.get_team(@team_input) 
       if @team_generator != nil && @team_generator["code"]
       @team = FantasyNBA::Team.new(@team_generator)
       team_selection_result
@@ -100,8 +110,13 @@ class FantasyNBA::FantasyCLI
       closing_message
     elsif @fantasy_input.downcase == "main menu"
       menu 
-    else 
-    @fantasy_generator = FantasyNBA::API.new.get_ranking(@fantasy_input) 
+    elsif FantasyNBA::PlayerRank.all.detect do |fantasy|
+        if fantasy.name == @fantasy_input
+        @fantasy = fantasy
+        fantasy_selection_result
+        end
+      end 
+    elsif @fantasy_generator = FantasyNBA::API.new.get_ranking(@fantasy_input) 
       if @fantasy_generator != nil 
       @fantasy = FantasyNBA::PlayerRank.new(@fantasy_generator)
       fantasy_selection_result

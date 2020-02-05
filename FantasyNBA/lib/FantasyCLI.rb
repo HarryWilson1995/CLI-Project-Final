@@ -2,11 +2,11 @@ class FantasyNBA::FantasyCLI
 
   def run 
     welcome 
+    menu 
   end 
 
   def welcome 
     puts "Welcome to every NBA Fantasy basketball player's dream app!" 
-    menu 
   end 
 
   def menu 
@@ -240,7 +240,7 @@ class FantasyNBA::FantasyCLI
   def closing_message
     puts " "
     puts "Thank you for using every NBA Fantasy basketball player's dream app! See you again soon!"
-    # sleep 1.5 
+    sleep 1.5 
   end 
 
 end

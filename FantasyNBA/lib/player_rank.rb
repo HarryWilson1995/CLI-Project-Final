@@ -18,4 +18,10 @@ class FantasyNBA::PlayerRank
       @@all 
     end
 
+    def self.find_by_name(name)
+      self.all.detect do |fantasy|
+        fantasy.name == name 
+      end
+    end
+
   end 

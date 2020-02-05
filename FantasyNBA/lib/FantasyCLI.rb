@@ -24,24 +24,24 @@ class FantasyNBA::FantasyCLI
   end 
 
   def first_options 
-    @options_input = gets.chomp 
+    options_input = gets.chomp 
 
-    if @options_input.downcase == "player"
+    if options_input.downcase == "player"
       puts " "
       puts "You have selected 'player'."
       player_selection
-    elsif @options_input.downcase == "team"
+    elsif options_input.downcase == "team"
       puts " "
       puts "You have selected 'team'."
       team_selection  
-    elsif @options_input.downcase == "fantasy ranking"
+    elsif options_input.downcase == "fantasy ranking"
       puts " "
       puts "You have selected 'fantasy ranking'."
       fantasy_selection 
-    elsif @options_input.downcase == "exit"
+    elsif options_input.downcase == "exit"
       closing_message
       # return 
-    elsif @options_input.downcase == "main menu" 
+    elsif options_input.downcase == "main menu" 
       menu 
     else 
       puts "Please enter a valid input from the options given to you!"
@@ -53,20 +53,18 @@ class FantasyNBA::FantasyCLI
   def player_selection 
     sleep 1
     puts "Which NBA player would you like to learn more about?"
-    @player_input = gets.chomp 
-    if @player_input.downcase == "exit"
+    player_input = gets.chomp 
+    if player_input.downcase == "exit"
       closing_message
-    elsif @player_input.downcase == "main menu"
+    elsif player_input.downcase == "main menu"
       menu 
-    elsif FantasyNBA::Player.all.detect do |player|
-        if player.name == @player_input
-        @player = player 
-        player_selection_result
-        end
-      end
-    elsif @player_generator = FantasyNBA::API.new.get_player(@player_input) 
-      if @player_generator != nil && @player_generator["playerId"]
-      @player = FantasyNBA::Player.new(@player_generator)
+    elsif FantasyNBA::Player.find_by_name(player_input)
+      @player = FantasyNBA::Player.find_by_name(player_input)
+      player_selection_result
+    else 
+      player_generator = FantasyNBA::API.new.get_player(player_input) 
+      if player_generator != nil && player_generator["playerId"]
+      @player = FantasyNBA::Player.new(player_generator)
       player_selection_result
       else 
       puts "Please make sure you are typing your player's name correctly and that your player currently plays in the NBA."
@@ -79,20 +77,18 @@ class FantasyNBA::FantasyCLI
   def team_selection  
     sleep 1
     puts "Which NBA team would you like to learn more about?"
-    @team_input = gets.chomp 
-    if @team_input.downcase == "exit"
+    team_input = gets.chomp 
+    if team_input.downcase == "exit"
       closing_message
-    elsif @team_input.downcase == "main menu"
+    elsif team_input.downcase == "main menu"
       menu 
-    elsif FantasyNBA::Team.all.detect do |team|
-        if team.name == @team_input
-      @team = team
+    elsif FantasyNBA::Team.find_by_name(team_input)
+      @team = FantasyNBA::Team.find_by_name(team_input)
       team_selection_result
-        end 
-      end
-    elsif @team_generator = FantasyNBA::API.new.get_team(@team_input) 
-      if @team_generator != nil && @team_generator["code"]
-      @team = FantasyNBA::Team.new(@team_generator)
+    else 
+      team_generator = FantasyNBA::API.new.get_team(team_input) 
+      if team_generator != nil && team_generator["code"]
+      @team = FantasyNBA::Team.new(team_generator)
       team_selection_result
       else 
       puts "Please make sure you are typing your teams's name correctly and that your team plays in the NBA."
@@ -105,20 +101,18 @@ class FantasyNBA::FantasyCLI
   def fantasy_selection 
     sleep 1
     puts "Which NBA player's fantasy rankings would you like to learn more about?"
-    @fantasy_input = gets.chomp 
-    if @fantasy_input.downcase == "exit"
+    fantasy_input = gets.chomp 
+    if fantasy_input.downcase == "exit"
       closing_message
-    elsif @fantasy_input.downcase == "main menu"
+    elsif fantasy_input.downcase == "main menu"
       menu 
-    elsif FantasyNBA::PlayerRank.all.detect do |fantasy|
-        if fantasy.name == @fantasy_input
-        @fantasy = fantasy
-        fantasy_selection_result
-        end
-      end 
-    elsif @fantasy_generator = FantasyNBA::API.new.get_ranking(@fantasy_input) 
-      if @fantasy_generator != nil 
-      @fantasy = FantasyNBA::PlayerRank.new(@fantasy_generator)
+    elsif FantasyNBA::PlayerRank.find_by_name(fantasy_input)
+      @fantasy = FantasyNBA::PlayerRank.find_by_name(fantasy_input)
+      fantasy_selection_result 
+    else
+      fantasy_generator = FantasyNBA::API.new.get_ranking(fantasy_input) 
+      if fantasy_generator != nil 
+      @fantasy = FantasyNBA::PlayerRank.new(fantasy_generator)
       fantasy_selection_result
       else 
       puts "Please make sure you are typing your player's name correctly and that your player currently plays in the NBA."
@@ -144,8 +138,8 @@ class FantasyNBA::FantasyCLI
     puts "To learn how much #{@player.name} weighs - type 'weight'."
     sleep 1 
     puts "You can still exit at any point by typing 'exit' or return to the main menu by typing 'main menu'."
-    @player_details_input = gets.chomp 
-    player_info_output 
+    player_details_input = gets.chomp 
+    player_info_output(player_details_input)
   end 
 
   def team_selection_result 
@@ -162,8 +156,8 @@ class FantasyNBA::FantasyCLI
     puts "To learn which division the #{@team.name} play(s) in - type 'division'."
     sleep 1 
     puts "You can still exit at any point by typing 'exit' or return to the main menu by typing 'main menu'."
-    @team_details_input = gets.chomp 
-    team_info_output
+    team_details_input = gets.chomp 
+    team_info_output(team_details_input)
   end 
 
   def fantasy_selection_result 
@@ -180,28 +174,28 @@ class FantasyNBA::FantasyCLI
     puts "To learn where #{@fantasy.name} ranks overall in fantasy basketball - type 'overall'."
     sleep 1 
     puts "You can still exit at any point by typing 'exit' or return to the main menu by typing 'main menu'."
-    @fantasy_details_input = gets.chomp 
-    fantasy_info_output
+    fantasy_details_input = gets.chomp 
+    fantasy_info_output(fantasy_details_input)
   end 
 
-  def player_info_output 
-    if @player_details_input.downcase == "exit"
+  def player_info_output(player_details_input)
+    if player_details_input.downcase == "exit"
       closing_message
-    elsif @player_details_input.downcase == "main menu"
+    elsif player_details_input.downcase == "main menu"
       menu 
-    elsif (@player_details_input.downcase == "college" && @player.school != "—") && (@player_details_input.downcase == "college" && @player.school != "No College")
+    elsif (player_details_input.downcase == "college" && @player.school != "—") && (player_details_input.downcase == "college" && @player.school != "No College")
       puts " "
       puts "#{@player.name} went to #{@player.school}."
       player_info_options
-    elsif  (@player_details_input.downcase == "college" && @player.school == "—") || (@player_details_input.downcase == "college" && @player.school == "No College")
+    elsif  (player_details_input.downcase == "college" && @player.school == "—") || (player_details_input.downcase == "college" && @player.school == "No College")
       puts " "
       puts "#{@player.name} did not play college basketball."
       player_info_options
-    elsif @player_details_input.downcase == "height"
+    elsif player_details_input.downcase == "height"
       puts " "
       puts "#{@player.name} is #{@player.height}."
       player_info_options
-    elsif @player_details_input.downcase == "weight"
+    elsif player_details_input.downcase == "weight"
       puts " "
       puts "#{@player.name} weighs #{@player.weight}lbs."
       player_info_options
@@ -212,16 +206,16 @@ class FantasyNBA::FantasyCLI
     end 
   end 
 
-  def team_info_output 
-    if @team_details_input.downcase == "exit"
+  def team_info_output(team_details_input)
+    if team_details_input.downcase == "exit"
       closing_message
-    elsif @team_details_input.downcase == "main menu"
+    elsif team_details_input.downcase == "main menu"
       menu 
-    elsif @team_details_input.downcase == "code"
+    elsif team_details_input.downcase == "code"
       puts " "
       puts "The 3 digit team code for the #{@team.name} is #{@team.code}."
       team_info_options
-    elsif @team_details_input.downcase == "division" 
+    elsif team_details_input.downcase == "division" 
       puts " "
       puts "The #{@team.name} play(s) in the #{@team.division} division."
       team_info_options
@@ -232,16 +226,16 @@ class FantasyNBA::FantasyCLI
     end
   end 
 
-  def fantasy_info_output 
-    if @fantasy_details_input.downcase == "exit"
+  def fantasy_info_output(fantasy_details_input)
+    if fantasy_details_input.downcase == "exit"
       closing_message
-    elsif @fantasy_details_input.downcase == "main menu"
+    elsif fantasy_details_input.downcase == "main menu"
       menu 
-    elsif @fantasy_details_input.downcase == "position"
+    elsif fantasy_details_input.downcase == "position"
       puts " "
       puts "#{@fantasy.name} ranks number #{@fantasy.rankPos} amongst #{@fantasy.position}'s in the NBA."
       fantasy_info_options
-    elsif @fantasy_details_input.downcase == "overall"
+    elsif fantasy_details_input.downcase == "overall"
       puts " "
       puts "#{@fantasy.name} ranks number #{@fantasy.rankOverall} overall in NBA fantasy basketball."
       fantasy_info_options
@@ -255,7 +249,6 @@ class FantasyNBA::FantasyCLI
   def closing_message
     puts " "
     puts "Thank you for using every NBA Fantasy basketball player's dream app! See you again soon!"
-    sleep 1.5 
   end 
 
 end

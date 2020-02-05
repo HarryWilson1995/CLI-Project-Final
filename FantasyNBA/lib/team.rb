@@ -2,6 +2,8 @@ class FantasyNBA::Team
 
   attr_accessor :code, :name, :conference, :division 
 
+  @@all = []
+
   def initialize(team_hash)
     team_hash.each do |key, value|
       begin
@@ -9,6 +11,7 @@ class FantasyNBA::Team
       rescue 
       end 
     end
+    @@all << self 
   end
   
 

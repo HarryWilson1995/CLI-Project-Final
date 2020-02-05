@@ -2,6 +2,8 @@ class FantasyNBA::PlayerRank
 
     attr_accessor :name, :team, :position, :rankPos, :rankOverall
 
+    @@all = []
+
     def initialize(player_hash)
       player_hash.each do |key, value|
         begin
@@ -9,6 +11,7 @@ class FantasyNBA::PlayerRank
         rescue 
         end 
       end
+      @@all << self 
     end
 
   end 

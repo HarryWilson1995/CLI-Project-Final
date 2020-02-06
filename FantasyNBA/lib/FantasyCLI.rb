@@ -6,14 +6,14 @@ class FantasyNBA::FantasyCLI
   end 
 
   def welcome 
-    puts "Welcome to every NBA Fantasy basketball player's dream app!" 
+    puts "Welcome to every NBA Fantasy Basketball Player's dream app!" 
   end 
 
   def menu 
     sleep 1 
     puts " "
-    puts "To learn about an NBA player - type 'player'."
-    puts "To learn about an NBA team - type 'team'."
+    puts "To learn about an NBA Player - type 'player'."
+    puts "To learn about an NBA Team - type 'team'."
     exit_menu
     first_options
   end 
@@ -38,7 +38,7 @@ class FantasyNBA::FantasyCLI
 
  
   def player_selection 
-    puts "Which NBA player would you like to learn more about?"
+    puts "Which NBA Player would you like to learn more about?"
     player_input = gets.chomp 
     exit_menu?(player_input)
     if FantasyNBA::Player.find_by_name(player_input)
@@ -60,7 +60,7 @@ class FantasyNBA::FantasyCLI
   end 
 
   def team_selection 
-    puts "Which NBA team would you like to learn more about?"
+    puts "Which NBA Team would you like to learn more about?"
     team_input = gets.chomp 
     exit_menu?(team_input)
     if FantasyNBA::Team.find_by_name(team_input)
@@ -147,13 +147,13 @@ class FantasyNBA::FantasyCLI
     elsif player_details_input.downcase == "overall rank"
       if @player.rankOverall != nil 
         puts " "
-        puts "#{@player.name} ranks number #{@player.rankOverall} overall in NBA fantasy basketball."
+        puts "#{@player.name} ranks number #{@player.rankOverall} overall in NBA Fantasy Basketball."
         player_info_options
       else 
       fantasy_generator = FantasyNBA::API.new.get_ranking(@player.name)
       @player.rankOverall = fantasy_generator["rankOverall"]
       puts " "
-      puts "#{@player.name} ranks number #{@player.rankOverall} overall in NBA fantasy basketball."
+      puts "#{@player.name} ranks number #{@player.rankOverall} overall in NBA Fantasy Basketball."
       player_info_options
       end 
     else 
@@ -180,7 +180,7 @@ class FantasyNBA::FantasyCLI
 
   def closing_message
     puts " "
-    puts "Thank you for using every NBA Fantasy basketball player's dream app! See you again soon!"
+    puts "Thank you for using every NBA Fantasy Basketball Player's dream app! See you again soon!"
     abort 
   end 
 

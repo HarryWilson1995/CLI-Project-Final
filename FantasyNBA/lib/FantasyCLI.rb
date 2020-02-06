@@ -50,16 +50,18 @@ class FantasyNBA::FantasyCLI
       @player = FantasyNBA::Player.find_by_name(player_input)
       player_selection_result
     else 
-      player_generator = FantasyNBA::API.new.get_player(player_input) 
-      if player_generator != nil && player_generator["playerId"]
-      @player = FantasyNBA::Player.new(player_generator)
+      player_generator = FantasyNBA::API.new.get_player 
+      player_generator.each do |player|
+        FantasyNBA::Player.new(player)
+      end
+      if FantasyNBA::Player.find_by_name(player_input)
+      @player = FantasyNBA::Player.find_by_name(player_input)
       player_selection_result
       else 
       invalid_input
       player_selection
      end
-    end
-    
+    end 
   end 
 
   def team_selection 
@@ -70,16 +72,18 @@ class FantasyNBA::FantasyCLI
       @team = FantasyNBA::Team.find_by_name(team_input)
       team_selection_result
     else 
-      team_generator = FantasyNBA::API.new.get_team(team_input) 
-      if team_generator != nil && team_generator["code"]
-      @team = FantasyNBA::Team.new(team_generator)
+      team_generator = FantasyNBA::API.new.get_team
+      team_generator.each do |team| 
+        FantasyNBA::Team.new(team)
+      end
+      if FantasyNBA::Team.find_by_name(team_input)
+      @team = FantasyNBA::Team.find_by_name(team_input)
       team_selection_result
-      else 
+      else  
       invalid_input
       team_selection
      end
     end 
-    
   end 
 
   def fantasy_selection 
@@ -113,6 +117,8 @@ class FantasyNBA::FantasyCLI
     puts "To learn where #{@player.name} played his college basketball - type 'college'."
     puts "To learn how tall #{@player.name} is - type 'height'."
     puts "To learn how much #{@player.name} weighs - type 'weight'."
+    puts "To learn 
+    "
     exit_menu
     player_details_input = gets.chomp 
     player_info_output(player_details_input)

@@ -1,6 +1,6 @@
 class FantasyNBA::Player 
 
-  attr_accessor :name, :team, :position, :height, :weight, :school 
+  attr_accessor :name, :team, :position, :height, :weight, :school, :rankPos, :rankOverall
 
   @@all = []
 

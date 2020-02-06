@@ -10,23 +10,20 @@ class FantasyNBA::FantasyCLI
   end 
 
   def menu 
+    sleep 1 
     puts " "
     puts "To learn about an NBA player - type 'player'."
-    sleep 1
     puts "To learn about an NBA team - type 'team'."
-    sleep 1
     puts "To learn about a player's fantasy rankings - type 'fantasy ranking'."
-    sleep 1
-    puts "To close the application - type 'exit' at any time."
-    sleep 1
-    puts "You can return to this menu at any time by typing 'main menu'."
+    exit_menu
     first_options
   end 
 
   def first_options 
     options_input = gets.chomp 
 
-    if options_input.downcase == "player"
+    if exit_menu?(options_input)
+    elsif options_input.downcase == "player"
       puts " "
       puts "You have selected 'player'."
       player_selection
@@ -38,11 +35,6 @@ class FantasyNBA::FantasyCLI
       puts " "
       puts "You have selected 'fantasy ranking'."
       fantasy_selection 
-    elsif options_input.downcase == "exit"
-      closing_message
-      # return 
-    elsif options_input.downcase == "main menu" 
-      menu 
     else 
       invalid_input
       menu 
@@ -137,7 +129,7 @@ class FantasyNBA::FantasyCLI
     sleep 1 
     puts "To learn how much #{@player.name} weighs - type 'weight'."
     sleep 1 
-    puts "You can still exit at any point by typing 'exit' or return to the main menu by typing 'main menu'."
+    exit_menu
     player_details_input = gets.chomp 
     player_info_output(player_details_input)
   end 
@@ -155,7 +147,7 @@ class FantasyNBA::FantasyCLI
     sleep 1 
     puts "To learn which division the #{@team.name} play(s) in - type 'division'."
     sleep 1 
-    puts "You can still exit at any point by typing 'exit' or return to the main menu by typing 'main menu'."
+    exit_menu
     team_details_input = gets.chomp 
     team_info_output(team_details_input)
   end 
@@ -173,7 +165,7 @@ class FantasyNBA::FantasyCLI
     sleep 1 
     puts "To learn where #{@fantasy.name} ranks overall in fantasy basketball - type 'overall'."
     sleep 1 
-    puts "You can still exit at any point by typing 'exit' or return to the main menu by typing 'main menu'."
+    exit_menu
     fantasy_details_input = gets.chomp 
     fantasy_info_output(fantasy_details_input)
   end 
@@ -259,6 +251,11 @@ class FantasyNBA::FantasyCLI
     elsif input.downcase == "main menu"
       menu 
     end
+  end
+
+  def exit_menu 
+    puts "To close the application - type 'exit' at any time."
+    puts "You can return to this menu at any time by typing 'main menu'."
   end
 
 end

@@ -1,40 +1,22 @@
-An app which shows NBA players info. May venture out into team standings/schedule etc after initial build.
-
-https://github.com/learn-co-curriculum/cli-data-gem-assessment
-
-Need to provide this link in readme - https://www.fantasybasketballnerd.com/
-
 # FantasyNBA
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/FantasyNBA`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This FantasyNBA CLI application gives you access to data on all current NBA Players and Teams. Special thanks to FantasyBasketballNerd for allowing me to use their API in the construction of this application. Go and check out their awesome website at the followin link - https://www.fantasybasketballnerd.com/. This app will give you access to the current team, position, height, weight, collegiate team, fantasy ranking for their position and overall fantasy ranking for every NBA Player. You can also discover more about NBA teams by learning the conference and division they play in as well as their 3 digit team code. The app is great for learning more about the NBA in preparation for a Fantasy Basketball draft as you can think about matchups, discover which rounds might be an appropriate spot to draft certain players, and much much more. I hope you enjoy this CLI application and good luck if you're playing Fantasy Basketball this year.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'FantasyNBA'
-```
+In order to use my application please first clone this repository
 
 And then execute:
 
     $ bundle install
 
-Or install it yourself as:
+Then run the application by entering:
 
-    $ gem install FantasyNBA
+    $ ruby bin/run
 
 ## Usage
 
-TODO: Write usage instructions here
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+The app is extremely simple to navigate and you will be prompted in the CLI at every stage telling you exactly what you can input in order to discover further information about an NBA Player or Team. You can exit the app at any time by entering 'exit' and you can always return to the initial menu options by entering 'main menu'.
 
 ## Contributing
 

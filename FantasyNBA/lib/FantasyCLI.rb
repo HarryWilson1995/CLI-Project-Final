@@ -44,7 +44,7 @@ class FantasyNBA::FantasyCLI
     elsif options_input.downcase == "main menu" 
       menu 
     else 
-      puts "Please enter a valid input from the options given to you!"
+      invalid_input
       menu 
     end
   end 
@@ -67,7 +67,7 @@ class FantasyNBA::FantasyCLI
       @player = FantasyNBA::Player.new(player_generator)
       player_selection_result
       else 
-      puts "Please make sure you are typing your player's name correctly and that your player currently plays in the NBA."
+      invalid_input
       player_selection
      end
     end
@@ -91,7 +91,7 @@ class FantasyNBA::FantasyCLI
       @team = FantasyNBA::Team.new(team_generator)
       team_selection_result
       else 
-      puts "Please make sure you are typing your teams's name correctly and that your team plays in the NBA."
+      invalid_input
       team_selection
      end
     end 
@@ -115,7 +115,7 @@ class FantasyNBA::FantasyCLI
       @fantasy = FantasyNBA::PlayerRank.new(fantasy_generator)
       fantasy_selection_result
       else 
-      puts "Please make sure you are typing your player's name correctly and that your player currently plays in the NBA."
+      invalid_input
       fantasy_selection
      end
     end 
@@ -200,8 +200,7 @@ class FantasyNBA::FantasyCLI
       puts "#{@player.name} weighs #{@player.weight}lbs."
       player_info_options
     else 
-      puts " "
-      puts "Please enter a valid input from the options given to you!"
+      invalid_input
       player_selection_result
     end 
   end 
@@ -220,8 +219,7 @@ class FantasyNBA::FantasyCLI
       puts "The #{@team.name} play(s) in the #{@team.division} division."
       team_info_options
     else 
-      puts " "
-      puts "Please enter a valid input from the options given to you!"
+      invalid_input
       team_selection_result
     end
   end 
@@ -240,8 +238,7 @@ class FantasyNBA::FantasyCLI
       puts "#{@fantasy.name} ranks number #{@fantasy.rankOverall} overall in NBA fantasy basketball."
       fantasy_info_options
     else 
-      puts " "
-      puts "Please enter a valid input from the options given to you!"
+      invalid_input
       fantasy_selection_result
     end
   end 
@@ -250,5 +247,18 @@ class FantasyNBA::FantasyCLI
     puts " "
     puts "Thank you for using every NBA Fantasy basketball player's dream app! See you again soon!"
   end 
+
+  def invalid_input 
+    puts " "
+    puts "Please make sure you are spelling everything correctly and try again!"
+  end
+
+  def exit_menu?(input)
+    if input.downcase == "exit"
+      closing_message
+    elsif input.downcase == "main menu"
+      menu 
+    end
+  end
 
 end

@@ -43,7 +43,6 @@ class FantasyNBA::FantasyCLI
 
  
   def player_selection 
-    sleep 1
     puts "Which NBA player would you like to learn more about?"
     player_input = gets.chomp 
     exit_menu?(player_input)
@@ -63,8 +62,7 @@ class FantasyNBA::FantasyCLI
     
   end 
 
-  def team_selection  
-    sleep 1
+  def team_selection 
     puts "Which NBA team would you like to learn more about?"
     team_input = gets.chomp 
     exit_menu?(team_input)
@@ -85,7 +83,6 @@ class FantasyNBA::FantasyCLI
   end 
 
   def fantasy_selection 
-    sleep 1
     puts "Which NBA player's fantasy rankings would you like to learn more about?"
     fantasy_input = gets.chomp 
     exit_menu?(fantasy_input)
@@ -113,13 +110,9 @@ class FantasyNBA::FantasyCLI
 
   def player_info_options 
     puts " "
-    sleep 1 
     puts "To learn where #{@player.name} played his college basketball - type 'college'."
-    sleep 1 
     puts "To learn how tall #{@player.name} is - type 'height'."
-    sleep 1 
     puts "To learn how much #{@player.name} weighs - type 'weight'."
-    sleep 1 
     exit_menu
     player_details_input = gets.chomp 
     player_info_output(player_details_input)
@@ -133,11 +126,8 @@ class FantasyNBA::FantasyCLI
 
   def team_info_options 
     puts " "
-    sleep 1 
     puts "To learn the three digit code for the #{@team.name} - type 'code'."
-    sleep 1 
     puts "To learn which division the #{@team.name} play(s) in - type 'division'."
-    sleep 1 
     exit_menu
     team_details_input = gets.chomp 
     team_info_output(team_details_input)
@@ -151,11 +141,8 @@ class FantasyNBA::FantasyCLI
 
   def fantasy_info_options 
     puts " "
-    sleep 1 
     puts "To learn where #{@fantasy.name} ranks for his position - type 'position'."
-    sleep 1 
     puts "To learn where #{@fantasy.name} ranks overall in fantasy basketball - type 'overall'."
-    sleep 1 
     exit_menu
     fantasy_details_input = gets.chomp 
     fantasy_info_output(fantasy_details_input)

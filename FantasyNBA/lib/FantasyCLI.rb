@@ -14,7 +14,7 @@ class FantasyNBA::FantasyCLI
     puts " "
     puts "To learn about an NBA player - type 'player'."
     puts "To learn about an NBA team - type 'team'."
-    puts "To learn about a player's fantasy rankings - type 'fantasy ranking'."
+    # puts "To learn about a player's fantasy rankings - type 'fantasy ranking'."
     exit_menu
     first_options
   end 
@@ -31,10 +31,10 @@ class FantasyNBA::FantasyCLI
       puts " "
       puts "You have selected 'team'."
       team_selection  
-    elsif options_input.downcase == "fantasy ranking"
-      puts " "
-      puts "You have selected 'fantasy ranking'."
-      fantasy_selection 
+    # elsif options_input.downcase == "fantasy ranking"
+    #   puts " "
+    #   puts "You have selected 'fantasy ranking'."
+    #   fantasy_selection 
     else 
       invalid_input
       menu 
@@ -86,25 +86,25 @@ class FantasyNBA::FantasyCLI
     end 
   end 
 
-  def fantasy_selection 
-    puts "Which NBA player's fantasy rankings would you like to learn more about?"
-    fantasy_input = gets.chomp 
-    exit_menu?(fantasy_input)
-    if FantasyNBA::PlayerRank.find_by_name(fantasy_input)
-      @fantasy = FantasyNBA::PlayerRank.find_by_name(fantasy_input)
-      fantasy_selection_result 
-    else
-      fantasy_generator = FantasyNBA::API.new.get_ranking(fantasy_input) 
-      if fantasy_generator != nil 
-      @fantasy = FantasyNBA::PlayerRank.new(fantasy_generator)
-      fantasy_selection_result
-      else 
-      invalid_input
-      fantasy_selection
-     end
-    end 
+  # def fantasy_selection 
+  #   puts "Which NBA player's fantasy rankings would you like to learn more about?"
+  #   fantasy_input = gets.chomp 
+  #   exit_menu?(fantasy_input)
+  #   if FantasyNBA::PlayerRank.find_by_name(fantasy_input)
+  #     @fantasy = FantasyNBA::PlayerRank.find_by_name(fantasy_input)
+  #     fantasy_selection_result 
+  #   else
+  #     fantasy_generator = FantasyNBA::API.new.get_ranking(fantasy_input) 
+  #     if fantasy_generator != nil 
+  #     @fantasy = FantasyNBA::PlayerRank.new(fantasy_generator)
+  #     fantasy_selection_result
+  #     else 
+  #     invalid_input
+  #     fantasy_selection
+  #    end
+  #   end 
     
-  end 
+  # end 
 
   def player_selection_result 
     puts " "
@@ -117,8 +117,8 @@ class FantasyNBA::FantasyCLI
     puts "To learn where #{@player.name} played his college basketball - type 'college'."
     puts "To learn how tall #{@player.name} is - type 'height'."
     puts "To learn how much #{@player.name} weighs - type 'weight'."
-    puts "To learn 
-    "
+    puts "To learn where #{@player.name} ranks for his position - type 'position rank'."
+    puts "To learn where #{@player.name} ranks overall in fantasy basketball - type 'overall rank'."
     exit_menu
     player_details_input = gets.chomp 
     player_info_output(player_details_input)
@@ -139,20 +139,20 @@ class FantasyNBA::FantasyCLI
     team_info_output(team_details_input)
   end 
 
-  def fantasy_selection_result 
-    puts " "
-    puts "You have selected #{@fantasy.name}. #{@fantasy.name} currently plays #{@fantasy.position} for #{@fantasy.team}."
-    fantasy_info_options
-  end 
+  # def fantasy_selection_result 
+  #   puts " "
+  #   puts "You have selected #{@fantasy.name}. #{@fantasy.name} currently plays #{@fantasy.position} for #{@fantasy.team}."
+  #   fantasy_info_options
+  # end 
 
-  def fantasy_info_options 
-    puts " "
-    puts "To learn where #{@fantasy.name} ranks for his position - type 'position'."
-    puts "To learn where #{@fantasy.name} ranks overall in fantasy basketball - type 'overall'."
-    exit_menu
-    fantasy_details_input = gets.chomp 
-    fantasy_info_output(fantasy_details_input)
-  end 
+  # def fantasy_info_options 
+  #   puts " "
+  #   puts "To learn where #{@fantasy.name} ranks for his position - type 'position'."
+  #   puts "To learn where #{@fantasy.name} ranks overall in fantasy basketball - type 'overall'."
+  #   exit_menu
+  #   fantasy_details_input = gets.chomp 
+  #   fantasy_info_output(fantasy_details_input)
+  # end 
 
   def player_info_output(player_details_input)
     exit_menu?(player_details_input)
@@ -172,6 +172,30 @@ class FantasyNBA::FantasyCLI
       puts " "
       puts "#{@player.name} weighs #{@player.weight}lbs."
       player_info_options
+    elsif player_details_input.downcase == "position rank"
+      if @player.rankPos != nil 
+        puts " "
+        puts "#{@player.name} ranks number #{@player.rankPos} amongst #{@player.position}'s in the NBA."
+        player_info_options
+      else 
+      fantasy_generator = FantasyNBA::API.new.get_ranking(@player.name)
+      @player.rankPos = fantasy_generator["rankPos"]
+      puts " "
+      puts "#{@player.name} ranks number #{@player.rankPos} amongst #{@player.position}'s in the NBA."
+      player_info_options
+      end 
+    elsif player_details_input.downcase == "overall rank"
+      if @player.rankOverall != nil 
+        puts " "
+        puts "#{@player.name} ranks number #{@player.rankOverall} overall in NBA fantasy basketball."
+        player_info_options
+      else 
+      fantasy_generator = FantasyNBA::API.new.get_ranking(@player.name)
+      @player.rankOverall = fantasy_generator["rankOverall"]
+      puts " "
+      puts "#{@player.name} ranks number #{@player.rankOverall} overall in NBA fantasy basketball."
+      player_info_options
+      end 
     else 
       invalid_input
       player_selection_result
@@ -194,21 +218,21 @@ class FantasyNBA::FantasyCLI
     end
   end 
 
-  def fantasy_info_output(fantasy_details_input)
-    exit_menu?(fantasy_details_input)
-    if fantasy_details_input.downcase == "position"
-      puts " "
-      puts "#{@fantasy.name} ranks number #{@fantasy.rankPos} amongst #{@fantasy.position}'s in the NBA."
-      fantasy_info_options
-    elsif fantasy_details_input.downcase == "overall"
-      puts " "
-      puts "#{@fantasy.name} ranks number #{@fantasy.rankOverall} overall in NBA fantasy basketball."
-      fantasy_info_options
-    else 
-      invalid_input
-      fantasy_selection_result
-    end
-  end 
+  # def fantasy_info_output(fantasy_details_input)
+  #   exit_menu?(fantasy_details_input)
+  #   if fantasy_details_input.downcase == "position"
+  #     puts " "
+  #     puts "#{@fantasy.name} ranks number #{@fantasy.rankPos} amongst #{@fantasy.position}'s in the NBA."
+  #     fantasy_info_options
+  #   elsif fantasy_details_input.downcase == "overall"
+  #     puts " "
+  #     puts "#{@fantasy.name} ranks number #{@fantasy.rankOverall} overall in NBA fantasy basketball."
+  #     fantasy_info_options
+  #   else 
+  #     invalid_input
+  #     fantasy_selection_result
+  #   end
+  # end 
 
   def closing_message
     puts " "

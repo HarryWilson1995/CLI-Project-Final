@@ -8,7 +8,7 @@ class FantasyNBA::Team
     team_hash.each do |key, value|
       begin
         self.send("#{key}=", value)
-      rescue 
+      rescue NoMethodError
       end 
     end
     @@all << self 

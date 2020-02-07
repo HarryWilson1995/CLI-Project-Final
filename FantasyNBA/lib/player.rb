@@ -16,15 +16,8 @@ class FantasyNBA::Player
     @@all << self 
   end
 
-  # def self.all 
-  #   @@all 
-  # end
-
-  # def self.find_by_name(name)
-  #   self.all.detect do |player|
-  #     player.name == name 
-  #   end
-  # end
-
-
+  def self.all 
+    @@all 
+  end
+  
 end

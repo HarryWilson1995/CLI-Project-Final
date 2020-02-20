@@ -8,9 +8,8 @@ class FantasyNBA::Player
 
   def initialize(player_hash)
     player_hash.each do |key, value|
-      begin
+      if self.respond_to?("#{key}=")
         self.send("#{key}=", value)
-      rescue NoMethodError
       end 
     end
     @@all << self 

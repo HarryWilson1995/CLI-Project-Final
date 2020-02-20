@@ -40,7 +40,6 @@ class FantasyNBA::FantasyCLI
   def player_selection 
     puts "Which NBA Player would you like to learn more about?"
     player_input = gets.chomp 
-    # binding.pry
     exit_menu?(player_input)
     if FantasyNBA::Player.find_by_name(player_input)
       @player = FantasyNBA::Player.find_by_name(player_input)
